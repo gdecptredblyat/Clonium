@@ -1,9 +1,19 @@
 class Item:
-    def __init__(self, k, access,i,j):
+    def __init__(self, k, access,i,j, color):
         self.k = k
         self.access = access
         self.i = i
         self.j = j
+        self.color = color
+        
+    
+class Gamer:
+    def __init__(self, sum, allow):
+        self.allow = allow
+        self.sum=sum
+        
+        
+        
 
 
 class CField:
@@ -15,8 +25,9 @@ class CField:
             self.items.append([0] * width)
         for i in range(length):
             for j in range(width):
-                self.items[i][j] = Item(0,1,i,j)
+                self.items[i][j] = Item(0,1,i,j,0)
         self.t = 1
+        
 
 
 AList = []
@@ -31,7 +42,7 @@ def Print_Field():
     for f in range(width):
         st = []
         for g in range(length):
-            st.append(Field.items[f][g].k)
+            st.append(Field.items[f][g].k, Field.items[f][g].color)
         print(st)
 
 
@@ -40,7 +51,8 @@ def Add_count(i, j):
     #Print_Field()
     #print("ya v add_count", i, j)
     #print(Field.items[i][j].k, Field.items[i][j].access)
-    Field.items[i][j].k = Field.items[i][j].k +1
+    Field.items[i][j].k +=1
+    G_1.sum+=1
     #Print_Field()
     #print("ya v add_count posle +", i, j)
     if (Field.items[i][j].k > 3):
@@ -92,17 +104,33 @@ def Disclosure(i, j):
     for c in [-1, 1]:
         if (Field.items[i + c][j].access == 1)and(i+c<length)and(i+c>=0):
             AList.append([i + c, j])
+            if(Field.items[i+c][j].color != G_1.allow):
+                Field.items[i+c][j].color=G_1.allow
+                G_1.sum+=Field.items[i+c][j].k
+                G_2.sum+=-Field.items[i+c][j].k
         if (Field.items[i][j + c].access == 1)and(j+c<length)and(j+c>=0):
             AList.append([i, j + c])
+            if(Field.items[i][j+c].color!=G_1.allow):
+                Field.items[i][j+c].color=G_1.allow
+                G_1.sum+=Field.items[i][j+c].k
+                G_2.sum+=-Field.items[i][j+c].k
 
-
-length = 3
-width = 3
+length = int(input("Enter length"))
+width = int(input("Enter width"))
 Field = CField(length, width)
 Main_DList = DList_1
-
+Gamer_1 = Gamer(1,0)
+Gamer_2 = Gamer(2,0)
 while True:
-    i = int(input("Enter first coordinates of choosed item: "))
-    j = int(input("Enter second coordinates of choosed item: "))
-    AList.append([i, j])
+    G_1=Gamer_1
+    G_2=Gamer_2
+    i_1 = int(input("Enter i_1: "))
+    j_1 = int(input("Enter j_1: "))
+    AList.append([i_1, j_1])
+    Clear_Add_List()
+    G_1=Gamer_2
+    G_2=Gamer_1
+    i_2 = int(input("Enter i_2: "))
+    j_2 = int(input("Enter j_2: "))
+    AList.append([i_2, j_2])
     Clear_Add_List()
