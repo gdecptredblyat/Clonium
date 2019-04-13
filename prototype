@@ -1,0 +1,43 @@
+class Item:
+  def __init__(self, k, access, i, j):
+    self.k = k// count of points in cell
+    self.acess = access// 
+    self.i = i
+    self.j = j
+  
+class Field:
+  def __init__(self,length,wight):
+    self.length = length
+    self.wight = wight
+    self.items = [(item(0,1)*length)]*wigth
+ 
+ DL_1 = []
+ DL_2 = []
+ Main_DL = DL_1
+ t=1
+def Add_count(i,j):
+  Field[i][j].k += Field[i][j].access
+  if (Field[i][j].k>3):
+    Main_DL.append([i,j])
+    
+def MDisclosure:
+  
+  for c in range(len(Main_DL)):
+    Disclosure(Main_DL.pop(0))
+    
+  if t == 1:
+    Main_DL = DL_2
+    t=2
+  else: 
+    Main_DL = DL_1
+    t=1
+    
+    
+def Disclosure(i,j):
+  Field[i][j].k -= 4
+  for c in[-1,1]:
+    Add_count(i+c,j)
+    Add_count(i,j+c)
+ 
+i = int(input("Enter first coordinates of choosed item"))
+j= int(input("Enter second coordinates of choosed item"))
