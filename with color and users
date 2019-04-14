@@ -1,0 +1,121 @@
+Colors = ("n", "y", "r", "b", "g")
+AList = []
+DList_1 = []
+DList_2 = []
+UList = []
+
+
+class Item:
+    def __init__(self, k, access,i,j):
+        self.k = k
+        self.access = access
+        self.i = i
+        self.j = j
+        self.color = Colors[0]
+
+
+class CField:
+    def __init__(self, length, width):
+        self.length = length
+        self.width = width
+        self.items = []
+        for i in range(length):
+            self.items.append([0] * width)
+        for i in range(length):
+            for j in range(width):
+                self.items[i][j] = Item(0,1,i,j)
+        self.t = 1
+
+
+
+class User:
+    def __init__(self, ncolor):
+        self. color = Colors[ncolor]
+        self.item_count = 0
+        self.score = 0
+
+
+
+
+
+
+def Print_Field():
+
+    for f in range(width):
+        st = []
+        for g in range(length):
+            st.append([Field.items[f][g].k, Field.items[f][g].color])
+        print(st)
+
+
+
+def Add_count(i, j):
+    if Field.items[i][j].k == 0:
+        UList[Current_Color - 1].item_count += 1
+    Field.items[i][j].k += 1
+    Field.items[i][j].color = Colors[Current_Color]
+    UList[Current_Color - 1].score += 1
+    if (Field.items[i][j].k > 3):
+        Main_DList.append([i, j])
+
+
+def Clear_Dis_List():
+    for c in range(len(Main_DList)):
+        Disclosure(Main_DList[0][0],Main_DList[0][1])
+        Main_DList.pop(0)
+    if len(AList)>0:
+        Clear_Add_List()
+
+
+
+def Clear_Add_List():
+    if (Field.t==1):
+        Main_DList=DList_1
+    else:
+        Main_DList = DList_2
+    for c in range(len(AList)):
+        Add_count(AList[0][0], AList[0][1])
+        AList.pop(0)
+    Print_Field()
+    print("***********")
+    Clear_Dis_List()
+    if (Field.t == 1):
+        Main_DList = DList_2
+        Field.t = 2
+    else:
+        Main_DList = DList_1
+        Field.t = 1
+
+
+def Disclosure(i, j):
+    Field.items[i][j].k -= 4
+    UList[Current_Color - 1].score -= 4
+    if Field.items[i][j].k == 0:
+        Field.items[i][j].color = Colors[0]
+        UList[Current_Color - 1].item_count -= 1
+    for c in [-1, 1]:
+        if (i+c >= 0)and(i+c < length)and(Field.items[i + c][j].access == 1):
+            AList.append([i + c, j])
+        if (j+c >= 0)and(j+c < length)and(Field.items[i][j + c].access == 1):
+            AList.append([i, j + c])
+
+
+length = 3
+width = 3
+Field = CField(length, width)
+Main_DList = DList_1
+Number_of_Users = int(input("Enter number of users: "))
+for u in range(Number_of_Users):
+    UList.append(User(u+1))
+while True:
+    for u in range(Number_of_Users):
+        Current_Color = u+1
+        print (u, "player move")
+        i = int(input("Enter first coordinates of choosed item: "))
+        j = int(input("Enter second coordinates of choosed item: "))
+        while not(Field.items[i][j].color in [Colors[0], Colors[u+1]]):
+            print("Wrong coordinates")
+            i = int(input("Enter first coordinates of choosed item: "))
+            j = int(input("Enter second coordinates of choosed item: "))
+        AList.append([i, j])
+        Clear_Add_List()
